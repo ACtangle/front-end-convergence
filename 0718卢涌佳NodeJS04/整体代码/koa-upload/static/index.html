@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <form action="/upload" method="post" enctype="multipart/form-data">
+      username: <input type="text" name="username" /> 
+      <br>
+      age: <input type="text" name="age" />
+      <br>
+      <input type="file" name="img" />
+      <button class="btn" type="submit">提交</button>
+    </form> -->
+    username: <input type="text" class="username" name="username" />
+    <br />
+    age: <input type="text" class="age" name="age" />
+    <br />
+    <input type="file" class="myfile" />
+    <br />
+    进度: <progress value="0" max="100"></progress>
+    <span class="percent">0%</span>
+    上传速度: <span class="speed">0b/s</span>
+    <br />
+    <button>点击上传</button>
+    <button>取消上传</button>
+  </body>
+  <script>
+    let buttons = document.querySelectorAll("button");
+    let username = document.querySelector(".username");
+    let age = document.querySelector(".age");
+    let progress = document.querySelector("progress");
+    let percent = document.querySelector(".percent");
+    let speedNode = document.querySelector(".speed");
+
+    let xhr = new XMLHttpRequest();
+    let stime;
+    let sloaded;
+
+    buttons[0].onclick = function () {
+      this.disabled = true;
+      let files = document.querySelector(".myfile").files[0];
+      if(!username.value || !age.value){
+        alert('请输入账号和年龄');
+        this.disabled = false;
+        throw Error('未输入账号或年龄');
+      }
+      if(files == undefined) {
+        alert('请上传文件');
+        this.disabled = false;
+        throw Error('缺少文件');
+      }
+      // 封装formData
+      let formData = new FormData();
+      formData.append("username", username.value);
+      formData.append("age", age.value);
+      formData.append("img", files);
+      // ajax请求
+      xhr.open("post", "/upload", true);
+      xhr.onload = function () {
+        console.log(xhr.responseText);
+      };
+      xhr.upload.onloadstart = function () {
+        console.log("上传开始");
+        stime = Date.now();
+        sloaded = 0;
+      };
+      xhr.upload.onprogress = function (evt) {
+        // console.log("上传中");
+        // 计算进度
+        let percentValue = ((evt.loaded / evt.total) * 100).toFixed();
+        progress.value = percentValue;
+        percent.innerHTML = percentValue + "%";
+        // 计算速率
+        let time = (Date.now() - stime) / 1000;
+        // console.log(time);
+        let loaded = evt.loaded - sloaded;
+        // console.log(loaded, evt.loaded, sloaded);
+        stime = Date.now();
+        sloaded = evt.loaded;
+        let unit = "b/s";
+        let speed = loaded / time;
+        if (speed / 1024 > 1) {
+          unit = "kb/s";
+          speed = speed / 1024;
+        }
+        if (speed / 1024 > 1) {
+          unit = "mb/s";
+          speed = speed / 1024;
+        }
+        // console.log(speed);
+        speedNode.innerHTML = speed.toFixed(2) + unit;
+      };
+      xhr.upload.onload = function () {
+        buttons[0].disabled = false;
+        console.log("上传成功");
+        if ((percentValue = 100)) {
+          alert("文件上传成功");
+        }
+      };
+      xhr.onloadend = function () {
+        console.log("操作结束");
+      };
+      xhr.onabort = function () {
+        console.log("上传终止");
+      };
+      xhr.send(formData);
+    };
+    buttons[1].onclick = function () {
+      xhr.abort();
+      percent.innerHTML = "0%";
+      speedNode.innerHTML = "0b/s";
+      progress.value = 0;
+      buttons[0].disabled = false;
+    };
+  </script>
+</html>
