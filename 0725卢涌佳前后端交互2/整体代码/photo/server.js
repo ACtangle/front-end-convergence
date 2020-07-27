@@ -2,6 +2,7 @@ const Koa = require("koa");
 const serve = require("koa-static");
 const koaBody = require("koa-body");
 const koaViews = require("koa-views");
+const koaHelmet = require("koa-helmet");
 // const koaSession = require("koa-session");
 const koaJwt = require("koa-jwt");
 const path = require("path");
@@ -54,6 +55,9 @@ app.use(
     path: [/^\/login/, /^\/checkUser/, /^\/photo/],
   })
 );
+
+// 请求头安全组件:koa-helmet
+app.use(koaHelmet());
 
 // 中间件session
 // app.use(koaSession(sessionConfig, app));
