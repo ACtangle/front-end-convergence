@@ -3,7 +3,7 @@ const serve = require("koa-static");
 const koaBody = require("koa-body");
 const koaViews = require("koa-views");
 const koaHelmet = require("koa-helmet");
-const koaLogger = require('koa-logger');
+const koaLogger = require("koa-logger");
 // const koaSession = require("koa-session");
 const koaJwt = require("koa-jwt");
 const path = require("path");
@@ -15,6 +15,7 @@ const { uploadImgRouter, toPage } = require("./router/index");
 const secret = "melonfuckingyouahahahahahha2123716274878*&^&*^";
 
 // const { Session } = require("inspector");
+// app.keys = session_signed_key;
 
 // const session_signed_key = ["_session_signed_key"]; // 这个是配合signed属性的签名key
 // const sessionConfig = {
@@ -30,7 +31,6 @@ const secret = "melonfuckingyouahahahahahha2123716274878*&^&*^";
 // koa框架类
 const app = new Koa();
 
-// app.keys = session_signed_key;
 
 // 初始化数据库连接
 initDB();

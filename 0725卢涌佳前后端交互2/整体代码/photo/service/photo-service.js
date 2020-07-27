@@ -14,7 +14,7 @@ module.exports = {
     saveImg(img, imgName);
     // 入库
     console.log('upload', username);
-    const user = await usersModel.selectIdByUsername(username);
+    const user = await usersModel.selectByUserObject({username});
     // console.log('user: ----- ',user);
     // console.log(user[0][0].id);
     if (user) {
