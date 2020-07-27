@@ -8,7 +8,7 @@ export function upload(username, previewImg) {
     const xhr = new XMLHttpRequest();
     xhr.open("post", "/upload");
     xhr.onload = () => {
-      resolve(xhr.response);
+      resolve(JSON.parse(xhr.response));
     };
     xhr.upload.onprogress = (e) => {
       previewImg.updateProgress(e.loaded, e.total);

@@ -1,15 +1,14 @@
 const jwt = require("jsonwebtoken");
 const { uploadImgService } = require("../service/index");
-const controller = require(".");
+const { ResponseVO } = require("../VO/index");
 const secret = "melonfuckingyouahahahahahha2123716274878*&^&*^";
 
 module.exports = {
   async upload(ctx) {
     const { img } = ctx.request.files;
     const { username } = ctx.request.body;
-    console.log(username);
     await uploadImgService.upload(username, img);
-    ctx.body = "上传成功";
+    ctx.body = new ResponseVO(1,'上传成功',{});
   },
 
   async getPhotos(ctx) {
@@ -27,21 +26,12 @@ module.exports = {
     );
 
     const [result] = await uploadImgService.getPhotos(username);
-    console.log("result:", result);
     ctx.type = "application/json";
     if (result.length > 1) {
-      ctx.body = {
-        state: 1,
-        msg: "success",
-        data: { result, username },
-      };
+      ctx.body = new ResponseVO(1, "success", { result, username });
       return;
     }
-    ctx.body = {
-      state: 1,
-      msg: "failure",
-      data: { result: [], username },
-    };
+    ctx.body = new ResponseVO(0, "failure", { result: [], username });
   },
 
   async login(ctx) {
@@ -53,30 +43,18 @@ module.exports = {
       password
     );
 
-    console.log(result);
     if (result.length >= 1) {
       // ctx.session.userState = true;
-      // console.log('666',ctx.session);
       // ctx.session.username = username;
       //  生成token
       const token = jwt.sign({ username }, secret, {
         expiresIn: "1h",
       });
       console.log("uploadImg-controller --> login() --> token : ", token);
-      ctx.body = {
-        state: 1,
-        msg: "login success",
-        data: {
-          token,
-        },
-      };
+      ctx.body = new ResponseVO(1,'login success',{token});
       return;
     }
-    ctx.body = {
-      state: 0,
-      msg: "login failure",
-      data: {},
-    };
+    ctx.body = new ResponseVO(0,'login failure',{});
   },
 
   logout(ctx) {
@@ -86,17 +64,9 @@ module.exports = {
       username
     );
     if (username) {
-      ctx.body = {
-        state: 1,
-        msg: "logout success",
-        data: {},
-      };
+      ctx.body = new ResponseVO(1, 'log out success',{});
       return;
     }
-    ctx.body = {
-      state: 0,
-      msg: "logout failure",
-      data: {},
-    };
+    ctx.body = new ResponseVO(0,'log out failure', {});
   },
 };

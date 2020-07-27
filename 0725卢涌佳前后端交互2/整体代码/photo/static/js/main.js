@@ -72,7 +72,8 @@ uploadBtn.addEventListener("click", async () => {
   // });
 
   for (const previewImg of uploadImgList) {
-    await upload(username, previewImg);
+    const data = await upload(username, previewImg);
+    console.log(data.msg);
   }
 
   // 上传完成了
