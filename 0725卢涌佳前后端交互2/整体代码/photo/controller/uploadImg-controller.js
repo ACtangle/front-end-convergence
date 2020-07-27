@@ -14,12 +14,7 @@ module.exports = {
 
   async getPhotos(ctx) {
     // 鉴权: koa-jwt自动鉴权
-
-    // const { username } = ctx.request.body;
-    // console.log(
-    //   "uploadImg-controller.js --> getPhotos() --> username:",
-    //   username
-    // );
+    const { username } = ctx.state.user;
 
     console.log(
       "uploadImg-controller.js --> getPhotos() --> ctx.request.body:",
@@ -30,10 +25,9 @@ module.exports = {
       "uploadImg-controller.js --> getPhotos() --> ctx.state.user:",
       ctx.state.user
     );
-    const { username } = ctx.state.user;
 
     const [result] = await uploadImgService.getPhotos(username);
-    // console.log('result:',result);
+    console.log("result:", result);
     ctx.type = "application/json";
     if (result.length > 1) {
       ctx.body = {
@@ -46,6 +40,7 @@ module.exports = {
     ctx.body = {
       state: 1,
       msg: "failure",
+      data: { result: [], username },
     };
   },
 

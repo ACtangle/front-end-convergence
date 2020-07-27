@@ -39,14 +39,15 @@ closeSpan.addEventListener("click", function () {
 async function initUploadedImgs() {
   const { state, data } = await getAllPhotos();
   console.log("main.js --> initUploadedImgs() --> data : ", data);
-  username = data.username;
+  username = data.username ;
   loginUsername.innerHTML = "欢迎您," + username;
 
-  if (getAllPhotos() == 'Authentication Error') {
-    alert("你还未登录，请登录");
-    window.location = "/login";
-    return;
-  }
+  // TODO: 鉴权失败跳转
+  // if (getAllPhotos() == 'Authentication Error') {
+  //   alert("你还未登录，请登录");
+  //   window.location = "/login";
+  //   return;
+  // }
   initImg(data.result);
 }
 
