@@ -1,15 +1,15 @@
 const Router = require("koa-router");
 
-const { uploadImgController } = require("../controller/index");
+const { photoController, loginController } = require("../controller/index");
 
 const router = new Router();
 
-router.post("/upload", uploadImgController.upload);
+router.post("/upload", photoController.upload);
 
-router.get("/getPhotos", uploadImgController.getPhotos);
+router.get("/getPhotos", photoController.getPhotos);
 
-router.post("/checkUser", uploadImgController.login);
+router.post("/checkUser", loginController.login);
 
-router.get("/logOut", uploadImgController.logout);
+router.get("/logOut", loginController.logout);
 
 module.exports = router;

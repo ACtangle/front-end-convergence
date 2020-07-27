@@ -1,5 +1,7 @@
-const uploadImgController = require("./uploadImg-controller");
+const photoController = require("./photo-controller");
+const loginController = require("./login-controller");
 
 module.exports = {
-  uploadImgController,
+  photoController,
+  loginController,
 };

@@ -1,5 +1,6 @@
-const uploadImgService  = require("./uploadImg-service");
-
+const photoService = require("./photo-service");
+const loginService = require("./login-service");
 module.exports = {
-  uploadImgService,
+  photoService,
+  loginService,
 };
