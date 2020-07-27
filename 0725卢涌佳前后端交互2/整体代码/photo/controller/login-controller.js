@@ -33,13 +33,14 @@ module.exports = {
   },
 
   logout(ctx) {
-    const { username } = ctx.state.user;
     console.log(
-      "uploadingImg-controller.js --> logout() --> username : ",
-      username
+      "uploadingImg-controller.js --> logout() --> ctx.state.user : ",
+      ctx.state.user
     );
+    const { username } = ctx.state.user;
     if (username) {
       ctx.body = new ResponseVO(1, "log out success", {});
+      ctx.state.user = {};
       return;
     }
     ctx.body = new ResponseVO(0, "log out failure", {});
