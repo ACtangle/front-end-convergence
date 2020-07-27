@@ -9,10 +9,10 @@ const koaJwt = require("koa-jwt");
 const path = require("path");
 
 const { initDB } = require("./db");
-const { uploadImgRouter, toPage } = require("./router/index");
+const { regexIgnoreUrl,secret } = require("./config/config");
+const { toPage,loginRouter,photoRouter } = require("./router/index");
 
-// 登录token的盐salt
-const secret = "melonfuckingyouahahahahahha2123716274878*&^&*^";
+
 
 // const { Session } = require("inspector");
 // app.keys = session_signed_key;
@@ -30,7 +30,6 @@ const secret = "melonfuckingyouahahahahahha2123716274878*&^&*^";
 
 // koa框架类
 const app = new Koa();
-
 
 // 初始化数据库连接
 initDB();
@@ -53,7 +52,7 @@ app.use(
   koaJwt({
     secret,
   }).unless({
-    path: [/^\/login/, /^\/checkUser/, /^\/photo/],
+    path: regexIgnoreUrl,
   })
 );
 
@@ -66,10 +65,10 @@ app.use(koaHelmet());
 // 中间件session
 // app.use(koaSession(sessionConfig, app));
 
+// 中间件router层
 // 页面跳转路由
 app.use(toPage.routes());
-
-// 中间件router层
-app.use(uploadImgRouter.routes());
+app.use(loginRouter.routes());
+app.use(photoRouter.routes());
 
 app.listen(8080);

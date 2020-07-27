@@ -1,7 +1,9 @@
 const toPage = require('./to-page');
-const uploadImgRouter = require("./uploadImg-router");
+const loginRouter = require('./login-router');
+const photoRouter = require("./photo-router");
 
 module.exports = {
   toPage,
-  uploadImgRouter,
+  loginRouter,
+  photoRouter,
 };

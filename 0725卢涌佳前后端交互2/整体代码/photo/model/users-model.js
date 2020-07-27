@@ -14,7 +14,7 @@ module.exports = {
    * 单表查询:
    *        1. 有参：则根据匹配条件搜索
    *        2. 有参：但是不匹配字段值返回空数组
-   *        2. objParam为空对象则搜索全表
+   *        3. objParam为空对象则搜索全表
    * @param {克隆传递的对象} param0
    */
   async selectByUserObject({ ...objParam }) {

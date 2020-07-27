@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { loginService } = require("../service/index");
 const { ResponseVO } = require("../VO/index");
 
-const secret = "melonfuckingyouahahahahahha2123716274878*&^&*^";
+const { secret } = require("../config/config");
 
 module.exports = {
   async login(ctx) {
