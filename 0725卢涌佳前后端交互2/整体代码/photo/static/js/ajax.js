@@ -2,10 +2,25 @@
  * 前台ajax调用接口数据
  */
 
+const token = localStorage.getItem("token");
 // main.js
+export function checkLogin() {
+    if (token === '') {
+      window.location = '/login';
+      return;
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open("post", "/checkLogin");
+    xhr.onload = () => {
+      const data = xhr.response;
+      console.log(data);
+    };
+    xhr.setRequestHeader("authorization", "Bearer " + token);
+    xhr.send(token);
+}
+
 export function upload(username, previewImg) {
   return new Promise((resolve, reject) => {
-    const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("img", previewImg.getFile());
     formData.append("username", username);
@@ -26,7 +41,6 @@ export function upload(username, previewImg) {
 
 export function getAllPhotos() {
   return new Promise((resolve, reject) => {
-    const token = localStorage.getItem("token");
     const xhr = new XMLHttpRequest();
     console.log("upload.js --> getAllPhotos() --> token : ", token);
 
@@ -48,7 +62,6 @@ export function getAllPhotos() {
 
 export function logOut() {
   return new Promise((resolve, reject) => {
-    const token = localStorage.getItem("token");
     const xhr = new XMLHttpRequest();
     xhr.open("get", "/logout");
     xhr.onload = () => {
@@ -72,7 +85,7 @@ export function login(username, password) {
     postData.append("password", password);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("post", "/checkUser", true);
+    xhr.open("post", "/login", true);
     xhr.onload = () => {
       const result = JSON.parse(xhr.response);
       reslove(result);

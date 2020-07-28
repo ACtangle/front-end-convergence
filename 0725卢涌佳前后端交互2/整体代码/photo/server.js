@@ -9,30 +9,32 @@ const koaJwt = require("koa-jwt");
 const path = require("path");
 
 const { initDB } = require("./db");
-const { regexIgnoreUrl,secret } = require("./config/config");
-const { toPage,loginRouter,photoRouter } = require("./router/index");
+const { ignoreUrl, secret } = require("./config/config");
+const { toPage, loginRouter, photoRouter } = require("./router/index");
 
-
-
-// const { Session } = require("inspector");
-// app.keys = session_signed_key;
-
-// const session_signed_key = ["_session_signed_key"]; // 这个是配合signed属性的签名key
-// const sessionConfig = {
-//   key: "koa:sess", //cookie key (default is koa:sess)
-//   maxAge: 1800000, // 过期时间(毫秒) maxAge in ms (default is 1 days)
-//   overwrite: true, //是否可以overwrite    (默认default true)
-//   httpOnly: true, //cookie是否只有服务器端可以访问 httpOnly or not (default true)
-//   signed: true, //签名默认true
-//   rolling: false, //在每次请求时强行设置cookie，这将重置cookie过期时间（默认：false）
-//   renew: false, //(boolean) renew session when session is nearly expired,
-// };
 
 // koa框架类
 const app = new Koa();
 
+// app.keys = session_signed_key;
+
 // 初始化数据库连接
 initDB();
+
+// Custom 401 handling (first middleware)
+// 鉴权劫持异常
+// app.use(function (ctx, next) {
+//   return next().catch((err) => {
+//     if (err.status === 401) {
+//       ctx.status = 401;
+//       ctx.body = {
+//         error: err.originalError ? err.originalError.message : err.message,
+//       };
+//     } else {
+//       throw err;
+//     }
+//   });
+// });
 
 // 前端向后端传递的格式
 app.use(
@@ -52,7 +54,8 @@ app.use(
   koaJwt({
     secret,
   }).unless({
-    path: regexIgnoreUrl,
+    path: ignoreUrl,
+    // path: [/^\/public/]
   })
 );
 

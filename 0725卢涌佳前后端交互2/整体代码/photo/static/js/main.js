@@ -1,7 +1,7 @@
 // 前端逻辑
 import PreviewImg from "./PreviewImg.js";
 import InitImg from "./InitImg.js";
-import { upload, getAllPhotos, logOut } from "./ajax.js";
+import { upload, getAllPhotos, logOut, checkLogin } from "./ajax.js";
 // import { getUrlParams } from "../utils/index.js";
 
 const imgFile = document.querySelector(".imgFile");
@@ -22,6 +22,7 @@ let username = "";
 //   window.location.search,
 //   "username"
 // );
+checkLogin();
 
 // 初始化页面
 initUploadedImgs();
@@ -40,13 +41,6 @@ async function initUploadedImgs() {
   console.log("main.js --> initUploadedImgs() --> data : ", data);
   username = data.username;
   loginUsername.innerHTML = "欢迎您," + username;
-
-  // TODO: 鉴权失败跳转
-  // if (getAllPhotos() == 'Authentication Error') {
-  //   alert("你还未登录，请登录");
-  //   window.location = "/login";
-  //   return;
-  // }
   initImg(data.result);
 }
 

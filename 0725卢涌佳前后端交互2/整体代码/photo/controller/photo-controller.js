@@ -12,18 +12,22 @@ module.exports = {
   async getPhotos(ctx) {
     // 鉴权: koa-jwt自动鉴权，ctx.state.user为验证后decoded值
     console.log(
-      "uploadImg-controller.js --> getPhotos() --> ctx.state.user:",
+      "photo-controller.js --> getPhotos() --> ctx.state.user:",
       ctx.state.user
+    );
+    console.log(
+      "photo-controller.js --> getPhotos() --> ctx.header.authorization :",
+      ctx.header.authorization
     );
     const { username } = ctx.state.user;
 
     console.log(
-      "uploadImg-controller.js --> getPhotos() --> ctx.request.body:",
+      "photo-controller.js --> getPhotos() --> ctx.request.body:",
       ctx.request.body
     );
 
     console.log(
-      "uploadImg-controller.js --> getPhotos() --> ctx.state.user:",
+      "photo-controller.js --> getPhotos() --> ctx.state.user:",
       ctx.state.user
     );
 

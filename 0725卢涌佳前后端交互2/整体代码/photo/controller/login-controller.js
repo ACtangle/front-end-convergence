@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
+
 const { loginService } = require("../service/index");
 const { ResponseVO } = require("../VO/index");
-
 const { secret } = require("../config/config");
 
 module.exports = {
   async login(ctx) {
-    console.log(ctx.request.body);
+    console.log("login-controller --> login --> request : ", ctx.request.body);
     ctx.type = "application/json";
     const { username, password } = ctx.request.body;
     if (username === "" || password === "") {
@@ -17,25 +17,43 @@ module.exports = {
       username,
       password,
     });
-    console.log("uploadImg-controller --> login() --> result : ", result);
+    console.log("login-controller --> login --> result : ", result);
     if (result.length <= 0) {
       ctx.body = new ResponseVO(0, "账号或者密码错误，请重新输入");
       return;
     }
-    // ctx.session.userState = true;
-    // ctx.session.username = username;
     //  生成token
     const token = jwt.sign({ username }, secret, {
       expiresIn: "1h",
     });
-    console.log("uploadImg-controller --> login() --> token : ", token);
+    console.log("login-controller --> login --> token : ", token);
+
     ctx.body = new ResponseVO(1, "login success", { token });
+  },
+
+  checkLogin(ctx) {
+    const token = ctx.request.body;
+
+    console.log("login-controller --> checkLogin --> request: token: ", token);
+    console.log(
+      "login-controller --> checkLogin --> ctx.header.authorization : ",
+      ctx.header.authorization
+    );
+    console.log(
+      "login-controller --> checkLogin --> 后端: ctx.state.user: ",
+      ctx.state.user
+    );
+    ctx.body = "1111";
   },
 
   logout(ctx) {
     console.log(
-      "uploadingImg-controller.js --> logout() --> ctx.state.user : ",
+      "login-controller.js --> logout --> ctx.state.user : ",
       ctx.state.user
+    );
+    console.log(
+      "login-controller --> logout --> 后端: token: ",
+      ctx.header.authorization
     );
     const { username } = ctx.state.user;
     if (username) {
