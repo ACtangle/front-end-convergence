@@ -5,7 +5,7 @@
 const token = localStorage.getItem("token");
 // main.js
 export function checkLogin() {
-    if (token === '') {
+    if (token === '' || token === null || token === undefined) {
       window.location = '/login';
       return;
     }
@@ -77,6 +77,7 @@ export function logOut() {
     xhr.send();
   });
 }
+
 // login.js
 export function login(username, password) {
   return new Promise((reslove, reject) => {
@@ -96,6 +97,7 @@ export function login(username, password) {
         window.location = "/photo";
       }
     };
+    xhr.setRequestHeader("authorization", "Bearer " + token);
     xhr.send(postData);
   });
 }

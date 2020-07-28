@@ -43,7 +43,11 @@ module.exports = {
       "login-controller --> checkLogin --> 后端: ctx.state.user: ",
       ctx.state.user
     );
-    ctx.body = "1111";
+    if(token == ctx.header.authorization.replace('Bearer ','')){
+      ctx.body = new ResponseVO(1,'已登录过',{});
+      return ;
+    }
+    ctx.body = new ResponseVO(0,'还未登录',{});
   },
 
   logout(ctx) {
