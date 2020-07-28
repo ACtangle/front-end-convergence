@@ -18,12 +18,12 @@ module.exports = {
     // console.log('user: ----- ',user);
     // console.log(user[0][0].id);
     if (user) {
-      const result = await usersModel.create(
+      const result = await userImgModel.create(
         user[0][0].id,
         "/upload/" + imgName,
         currentTime
       );
-      console.log('usersModel.create',result);
+      console.log('userImgModel.create',result);
       return result;
     }
   },

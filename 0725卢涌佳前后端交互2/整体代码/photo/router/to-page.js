@@ -12,5 +12,4 @@ ignoreUrl.forEach((url) => {
   });
 });
 
-
 module.exports = router;

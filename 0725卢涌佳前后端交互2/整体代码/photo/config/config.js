@@ -1,4 +1,3 @@
-
 // 页面跳转的路由: 路由名字跟页面名字需一致
 const ignoreUrl = ['/login','/photo'];
 

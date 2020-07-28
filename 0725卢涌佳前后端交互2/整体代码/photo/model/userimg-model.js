@@ -9,7 +9,6 @@ let userImg = {
 };
 
 module.exports = {
-
   /**
    * 动态sql
    * 单表查询:
@@ -52,6 +51,18 @@ module.exports = {
                   WHERE
                     username = ?`;
     const result = await getDB().execute(sql, [username]);
+    return result;
+  },
+
+  /**
+   * 根据用户id、文件存放地址、创建时间创建一条用户关于上传图片的记录
+   * @param {用户id} userId
+   * @param {文件存放地址} imgUrl
+   * @param {创建时间} createTime
+   */
+  async create(userId, imgUrl, createTime) {
+    const sql = `INSERT INTO user_img(userId,imgUrl,createtime) VALUES(?,?,?)`;
+    const result = await getDB().execute(sql, [userId, imgUrl, createTime]);
     return result;
   },
 };
