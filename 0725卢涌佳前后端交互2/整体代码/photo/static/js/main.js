@@ -1,7 +1,7 @@
 // 前端逻辑
 import PreviewImg from "./PreviewImg.js";
 import InitImg from "./InitImg.js";
-import { upload, getAllPhotos,logOut } from "./upload.js";
+import { upload, getAllPhotos, logOut } from "./ajax.js";
 // import { getUrlParams } from "../utils/index.js";
 
 const imgFile = document.querySelector(".imgFile");
@@ -16,13 +16,12 @@ const logoutBtn = document.querySelector("#logoutBtn");
 const loginUsername = document.querySelector("#logined_username");
 const masking = document.querySelector(".masking");
 
-let username = '';
+let username = "";
 
 // const username = getUrlParams.getPramsByString(
 //   window.location.search,
 //   "username"
 // );
-
 
 // 初始化页面
 initUploadedImgs();
@@ -39,7 +38,7 @@ closeSpan.addEventListener("click", function () {
 async function initUploadedImgs() {
   const { state, data } = await getAllPhotos();
   console.log("main.js --> initUploadedImgs() --> data : ", data);
-  username = data.username ;
+  username = data.username;
   loginUsername.innerHTML = "欢迎您," + username;
 
   // TODO: 鉴权失败跳转
