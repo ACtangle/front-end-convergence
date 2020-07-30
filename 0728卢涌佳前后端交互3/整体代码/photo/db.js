@@ -1,3 +1,4 @@
+// mysql数据连接
 const mysql = require("mysql2/promise");
 
 const { mysqlParam } = require("./config/config");
