@@ -7,8 +7,8 @@ const { secret } = require("../config/config");
 module.exports = {
   async login(ctx) {
     console.log("login-controller --> login --> request : ", ctx.request.body);
-    ctx.type = "application/json";
-    const { username, password } = JSON.parse(ctx.request.body);
+    // ctx.type = "application/json";
+    const { username, password } = ctx.request.body;
     console.log("login-controller --> login --> username : ", username);
     if (username === "" || password === "") {
       ctx.body = new ResponseVO(0, "账号或者密码为空，请重新输入", {});
@@ -20,7 +20,7 @@ module.exports = {
     });
     console.log("login-controller --> login --> result : ", result);
     if (result.length <= 0) {
-      ctx.body = new ResponseVO(0, "账号或者密码错误，请重新输入");
+      ctx.body = new ResponseVO(0, "账号或者密码错误，请重新输入", {});
       return;
     }
     //  生成token

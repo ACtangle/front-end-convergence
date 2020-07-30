@@ -6,7 +6,7 @@ const token = localStorage.getItem("token");
 
 // login.js
 export function login(username, password) {
-  return new Promise((reslove, reject) => {
+  return new Promise((resolve, reject) => {
     const data = {
       username,
       password,
@@ -16,7 +16,7 @@ export function login(username, password) {
     xhr.open("post", "/public/login", true);
     xhr.onload = () => {
       const result = JSON.parse(xhr.response);
-      reslove(result);
+      resolve(result);
       if (result.state == 0) {
         alert(`详细信息:${result.msg}`);
       } else {
