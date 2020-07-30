@@ -6,7 +6,7 @@ export default class PreviewImg {
   }
 
   updateProgress(loaded, total) {
-    const percent = this.calculPercent(loaded, total);
+    const percent = this.callPercent(loaded, total);
 
     this.showProgress();
     this.updateProgressView(percent);
@@ -16,12 +16,11 @@ export default class PreviewImg {
     }
   }
 
-
   isDone(percent) {
     return percent >= 100;
   }
 
-  calculPercent(loaded, total) {
+  callPercent(loaded, total) {
     return Math.floor((loaded / total) * 100);
   }
 

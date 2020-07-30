@@ -1,6 +1,7 @@
 // 登录逻辑
-// import { login } from "./ajax.js";
 import { login } from "./api.js";
+
+// import { login } from "./ajax.js";
 
 const username = document.querySelector("#username");
 const password = document.querySelector("#password");

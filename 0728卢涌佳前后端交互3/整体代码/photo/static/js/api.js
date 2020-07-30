@@ -7,8 +7,24 @@ import myAxios from "./myAxios.js";
 //login.js
 export function login(username, password) {
   const postData = { username, password };
-  myAxios
-    .post("/public/login", postData)
+  // myAxios
+  //   .post("/public/login", postData)
+  //   .then((response) => {
+  //     const data = response.data;
+  //     if (data.state == 0) {
+  //       alert(`详细信息: ${data.msg}`);
+  //     } else {
+  //       localStorage.setItem("token", data.data.token);
+  //       window.location = "photo.html";
+  //     }
+  //   })
+  //   .catch((err) => {});
+
+  myAxios({
+    url: "/public/login",
+    method: "post",
+    data: postData,
+  })
     .then((response) => {
       const data = response.data;
       if (data.state == 0) {
@@ -18,7 +34,9 @@ export function login(username, password) {
         window.location = "photo.html";
       }
     })
-    .catch((err) => {});
+    .catch((err) => {
+      throw err("api.js --> login --> err: ", err);
+    });
 }
 
 //main.js
@@ -27,30 +45,43 @@ export function upload(username, previewImg) {
   postFormData.append("img", previewImg.getFile());
   postFormData.append("username", username);
 
-  console.dir(myAxios);
-  return myAxios
-    .post("/api/upload", postFormData)
+  return myAxios({
+    url: "/api/upload",
+    data: postFormData,
+    method: "post",
+    onUploadProgress: function (progressEvent) {
+      previewImg.updateProgress(progressEvent.loaded, progressEvent.total);
+    },
+  })
     .then((response) => {
       const data = response.data;
-      console.log("api.js --> upload --> response: ", response);
+      // console.log("api.js --> upload --> response: ", response);
       return data;
     })
-    .catch((err) => {});
+    .catch((err) => {
+      throw err("api.js --> upload --> err: ", err);
+    });
 }
 
 export function getAllPhotos() {
-  return myAxios
-    .get("/api/getPhotos")
+  return myAxios({
+    url: "/api/getPhotos",
+    method: "get",
+  })
     .then((response) => {
       const data = response.data;
       return data;
     })
-    .catch((err) => {});
+    .catch((err) => {
+      throw err("api.js --> getAllPhotos --> err: ", err);
+    });
 }
 
 export function logOut() {
-  return myAxios
-    .get("/api/logout")
+  return myAxios({
+    url: "/api/logout",
+    method: "get",
+  })
     .then((response) => {
       const data = response.data;
       if (data.state == 1) {
@@ -58,5 +89,7 @@ export function logOut() {
         window.location = "login.html";
       }
     })
-    .catch((err) => {});
+    .catch((err) => {
+      throw err("api.js --> logOut --> err: ", err);
+    });
 }

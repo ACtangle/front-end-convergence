@@ -1,8 +1,9 @@
 // 前端逻辑
 import PreviewImg from "./PreviewImg.js";
 import InitImg from "./InitImg.js";
-// import { upload, getAllPhotos, logOut } from "./ajax.js";
 import { upload, getAllPhotos, logOut } from "./api.js";
+
+// import { upload, getAllPhotos, logOut } from "./ajax.js";
 // import { getUrlParams } from "../utils/index.js";
 
 const imgFile = document.querySelector(".imgFile");
@@ -60,7 +61,7 @@ let uploadImgList = [];
 uploadBtn.addEventListener("click", async () => {
   for (const previewImg of uploadImgList) {
     const data = await upload(username, previewImg);
-    console.log("main.js --> upload --> data : ", data.msg);
+    console.log("main.js --> upload --> data : ", data);
   }
   // 上传完成了
   uploadCompleted();
