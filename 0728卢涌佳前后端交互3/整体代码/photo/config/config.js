@@ -12,8 +12,6 @@ const mysqlParam = {
   database: "web09",
 };
 
-
-
 // const session_signed_key = ["_session_signed_key"]; // 这个是配合signed属性的签名key
 // const sessionConfig = {
 //   key: "koa:sess", //cookie key (default is koa:sess)

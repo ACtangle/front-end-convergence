@@ -5,46 +5,30 @@
 import myAxios from "./myAxios.js";
 
 //login.js
+/**
+ * 请求登录接口
+ * @param {用户名} username 
+ * @param {密码} password 
+ */
 export function login(username, password) {
   const postData = { username, password };
-  // myAxios
-  //   .post("/public/login", postData)
-  //   .then((response) => {
-  //     const data = response.data;
-  //     if (data.state == 0) {
-  //       alert(`详细信息: ${data.msg}`);
-  //     } else {
-  //       localStorage.setItem("token", data.data.token);
-  //       window.location = "photo.html";
-  //     }
-  //   })
-  //   .catch((err) => {});
-
-  myAxios({
+  return myAxios({
     url: "/public/login",
     method: "post",
     data: postData,
   })
-    .then((response) => {
-      const data = response.data;
-      if (data.state == 0) {
-        alert(`详细信息: ${data.msg}`);
-      } else {
-        localStorage.setItem("token", data.data.token);
-        window.location = "photo.html";
-      }
-    })
-    .catch((err) => {
-      throw err("api.js --> login --> err: ", err);
-    });
 }
 
 //main.js
+/**
+ * 请求上传图片
+ * @param {用户名} username 
+ * @param {上传的图片} previewImg 
+ */
 export function upload(username, previewImg) {
   const postFormData = new FormData();
   postFormData.append("img", previewImg.getFile());
   postFormData.append("username", username);
-
   return myAxios({
     url: "/api/upload",
     data: postFormData,
@@ -53,43 +37,24 @@ export function upload(username, previewImg) {
       previewImg.updateProgress(progressEvent.loaded, progressEvent.total);
     },
   })
-    .then((response) => {
-      const data = response.data;
-      // console.log("api.js --> upload --> response: ", response);
-      return data;
-    })
-    .catch((err) => {
-      throw err("api.js --> upload --> err: ", err);
-    });
 }
 
+/**
+ * 请求获取当前用户已上传的所有图片
+ */
 export function getAllPhotos() {
   return myAxios({
     url: "/api/getPhotos",
     method: "get",
   })
-    .then((response) => {
-      const data = response.data;
-      return data;
-    })
-    .catch((err) => {
-      throw err("api.js --> getAllPhotos --> err: ", err);
-    });
 }
 
+/**
+ * 请求退出当前用户
+ */
 export function logOut() {
   return myAxios({
     url: "/api/logout",
     method: "get",
   })
-    .then((response) => {
-      const data = response.data;
-      if (data.state == 1) {
-        localStorage.setItem("token", "");
-        window.location = "login.html";
-      }
-    })
-    .catch((err) => {
-      throw err("api.js --> logOut --> err: ", err);
-    });
 }

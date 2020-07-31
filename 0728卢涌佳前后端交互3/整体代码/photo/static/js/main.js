@@ -29,8 +29,15 @@ let username = "";
 // 初始化页面
 initUploadedImgs();
 
-logoutBtn.addEventListener("click", () => {
-  logOut();
+logoutBtn.addEventListener("click", async () => {
+  const { data } = await logOut();
+  // console.log("data",data);
+  if(data.state == 1) {
+    localStorage.setItem('token','');
+    window.location = 'login.html';
+  }else{
+    window.location = '404.html';
+  }
 });
 
 closeSpan.addEventListener("click", function () {
@@ -39,11 +46,11 @@ closeSpan.addEventListener("click", function () {
 
 // 回显
 async function initUploadedImgs() {
-  const { state, data } = await getAllPhotos();
-  console.log("main.js --> initUploadedImgs() --> data : ", data);
-  username = data.username;
+  const { data } = await getAllPhotos();
+  // console.log("main.js --> initUploadedImgs() --> data : ", data);
+  username = data.data.username;
   loginUsername.innerHTML = "欢迎您," + username;
-  initImg(data.result);
+  initImg(data.data.result);
 }
 
 function initImg(result) {

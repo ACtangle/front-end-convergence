@@ -22,19 +22,19 @@ initDB();
 
 // Custom 401 handling (first middleware)
 // 鉴权劫持异常
-// app.use(function (ctx, next) {
-//   return next().catch((err) => {
-//     if (err.status === 401) {
-//       ctx.status = 401;
-//       (error = err.originalError ? err.originalError.message : err.message),
-//         (ctx.body = {
-//           err,
-//         });
-//     } else {
-//       throw err;
-//     }
-//   });
-// });
+app.use(function (ctx, next) {
+  return next().catch((err) => {
+    if (err.status === 401) {
+      ctx.status = 401;
+      (error = err.originalError ? err.originalError.message : err.message),
+        (ctx.body = {
+          err,
+        });
+    } else {
+      throw err;
+    }
+  });
+});
 
 // 前端向后端传递的格式
 app.use(
