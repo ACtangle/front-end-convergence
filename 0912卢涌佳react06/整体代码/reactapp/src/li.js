@@ -8,9 +8,10 @@ export default function Li(props) {
   // 父组件传递数据
   let { done, title, id } = props.item;
 
-  // 该子组件的值
+  // 该子组件的私有属性
   let [edit, setEdit] = useState(false);
   let [val, setVal] = useState(title);
+
   // 判断组件是否为初始化时期
   let [isInitial, setIsInitial] = useState(false);
 
@@ -18,17 +19,29 @@ export default function Li(props) {
   const dispatch = useDispatch();
 
   // 组件表单聚焦互斥锁
-  const flag = useSelector((state) => state.flag);
+  // const flag = useSelector((state) => state.flag);
 
+  // useEffect(() => {
+  //   if (!isInitial) {
+  //     console.log(`id-${id}:组件初始化`);
+  //     setIsInitial(true);
+  //   } else {
+  //     // 组件更新
+  //     console.log(`id-${id}:组件更新`);
+  //   }
+  // }, [title]);
+
+  // 组件更新时聚焦表单互斥可编辑
   useEffect(() => {
     if (!isInitial) {
       console.log(`id-${id}:组件初始化`);
       setIsInitial(true);
-    } else {
-      // 组件更新
-      console.log(`id-${id}:组件更新`);
     }
-  }, [title]);
+    if (edit) {
+      console.log(`Li -> id-${id} -> edit`, edit);
+      editIptRef.current.focus();
+    }
+  }, [edit]);
 
   return (
     <li className={edit ? "editing" : ""}>
@@ -49,14 +62,14 @@ export default function Li(props) {
           <div
             className="todo-content"
             onDoubleClick={() => {
-              if (flag) {
-                // 如果锁未占用，设置为占用状态
-                dispatch({
-                  type: "BIND_FLAG",
-                  flag: false,
-                });
-                setEdit(true);
-              }
+              // if (flag) {
+              // 如果锁未占用，设置为占用状态
+              // dispatch({
+              //   type: "BIND_FLAG",
+              //   flag: false,
+              // });
+              setEdit(true);
+              // }
             }}
           >
             {title}
@@ -89,10 +102,10 @@ export default function Li(props) {
                   title: target.value,
                 });
                 // 失去焦点后释放占用的锁flag
-                dispatch({
-                  type: "BIND_FLAG",
-                  flag: true,
-                });
+                // dispatch({
+                //   type: "BIND_FLAG",
+                //   flag: true,
+                // });
               } else {
                 console.log("???");
               }
